@@ -1,32 +1,29 @@
-class Solution(object):
+class Solution:
     def sortArray(self, nums):
-        # Если в списке 1 элемент или меньше, он уже отсортирован
         if len(nums) <= 1:
-            return nums
-        
-        # 1. Разделение: находим середину и делим массив
+            return nums  # если 1 элемент — уже отсортирован
+
         mid = len(nums) // 2
-        left_half = self.sortArray(nums[:mid])
-        right_half = self.sortArray(nums[mid:])
-        
-        # 2. Слияние: соединяем две части в одну
-        return self.merge(left_half, right_half)
-    
+        left = self.sortArray(nums[:mid])   # левая часть
+        right = self.sortArray(nums[mid:])  # правая часть
+
+        return self.merge(left, right)
+
     def merge(self, left, right):
-        sorted_arr = []
+        result = []
         i = j = 0
-        
-        # Сравниваем элементы из обеих половин
+
+        # сравниваем элементы
         while i < len(left) and j < len(right):
             if left[i] < right[j]:
-                sorted_arr.append(left[i])
+                result.append(left[i])
                 i += 1
             else:
-                sorted_arr.append(right[j])
+                result.append(right[j])
                 j += 1
-        
-        # Добавляем оставшиеся элементы (если они есть)
-        sorted_arr.extend(left[i:])
-        sorted_arr.extend(right[j:])
-        
-        return sorted_arr
+
+        # добавляем остатки
+        result += left[i:]
+        result += right[j:]
+
+        return result
