@@ -1,0 +1,55 @@
+import random
+
+# Функция partition по схеме Ломуто
+def partition(arr, low, high):
+
+    # pivot — опорный элемент (берём последний элемент)
+    pivot = arr[high]
+
+    # i — индекс границы элементов меньше pivot
+    i = low - 1
+
+    # проходим по массиву
+    for j in range(low, high):
+
+        # если текущий элемент меньше или равен pivot
+        if arr[j] <= pivot:
+            i += 1
+
+            # меняем элементы местами
+            arr[i], arr[j] = arr[j], arr[i]
+
+    # ставим pivot на правильное место
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+
+    # возвращаем позицию pivot
+    return i + 1
+
+
+def quick_sort(arr, low, high):
+
+    # рекурсия выполняется пока в части массива больше одного элемента
+    if low < high:
+
+        # выбираем случайный индекс для pivot
+        random_index = random.randint(low, high)
+
+        # меняем случайный элемент с последним
+        arr[random_index], arr[high] = arr[high], arr[random_index]
+
+        # делим массив относительно pivot
+        pivot_index = partition(arr, low, high)
+
+        # сортируем левую часть массива
+        quick_sort(arr, low, pivot_index - 1)
+
+        # сортируем правую часть массива
+        quick_sort(arr, pivot_index + 1, high)
+
+
+# пример работы
+arr = [7, 2, 1, 6, 8, 5, 3, 4]
+
+quick_sort(arr, 0, len(arr) - 1)
+
+print("Отсортированный массив:", arr)
